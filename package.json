@@ -1,13 +1,13 @@
 {
   "name": "troll-bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A commercial chat bot",
   "engines": {
     "node": "6.9.4"
   },
   "main": "bots.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node bot.js",
     "test": "node test.js"
   },
   "dependencies": {
