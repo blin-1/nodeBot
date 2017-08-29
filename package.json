@@ -1,0 +1,32 @@
+{
+  "name": "troll-bot",
+  "version": "0.0.1",
+  "description": "A commercial chat bot",
+  "engines": {
+    "node": "6.9.4"
+  },
+  "main": "bots.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "express": "4.15.2",
+    "request": "2.81.0"
+  }
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/troll-bot"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "chat",
+	"bot"
+  ],
+  "license": "MIT"
+}
