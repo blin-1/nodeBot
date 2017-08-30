@@ -216,7 +216,7 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			(fullName.includes('Гeнepaтop') && id != 6373791 && !comment.is_banned)
 		||	(fullName.includes('Ядрена')   	&& id != 6410972 && !comment.is_banned)
 		||	(fullName.includes('Ясен')   	&& id != 6318323 && !comment.is_banned)
-		||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
+		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
 		{
 		    return bot.processComment(100,bot.respondToKlon,comment,articleId,bot);
@@ -234,16 +234,16 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			fullName.includes('Khe')||
 			fullName.includes('Kхе')||
 			fullName.includes('Кxе')){
-			return bot.processComment(50,bot.respondToKhe,comment,articleId,bot);
+			return bot.processComment(60,bot.respondToKhe,comment,articleId,bot);
 		}
 		
 		
-// 		if (id == 6269777){
-//			return bot.processComment(25,bot.respondToValenok,comment,articleId,bot);
-//		}		
+ 		if (id == 6269777){
+			return bot.processComment(25,bot.respondToValenok,comment,articleId,bot);
+		}		
 		
 		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
-			return bot.processComment(20,bot.respondToBadGuy,comment,articleId,bot);			
+			return bot.processComment(30,bot.respondToBadGuy,comment,articleId,bot);			
 		}
 		
 		if (bot.goodGuys.includes(id) || bot.goodGuys.includes(fullName)){
@@ -256,10 +256,6 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			comment.text.includes('попуга')
 			){
 			return bot.processComment(100,bot.respondToPopka,comment,articleId,bot);
-		}
-		
-		if (id == 6400302){
-			return bot.processComment(100,bot.respondToTrollRossiya,comment,articleId,bot);
 		}
 
 	});
@@ -334,26 +330,12 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 	
 };
 
-TrollBot.prototype.respondToTrollRossiya = function(comment,bot) {
-	
-			//console.log("Responding to : " + comment.user.first_name + " " + comment.user.last_name + " : " + comment);
-			return(
-					comment.user.first_name + " " + comment.user.last_name 
-					+ ","
-					+ "\n Почему нету новостей про рекордные удои молока, достигнутые Дюдюровскими доярками - членами ЕР ?"
-					+ "\n Публика обязана знать об этом достижении."
-					);
-					
-	
-};
-
-
 TrollBot.prototype.respondToValenok = function(comment,bot) {
 	
 			//console.log("Responding to : " + comment.user.first_name + " " + comment.user.last_name + " : " + comment);	
 			var replies = [	
 							"Валенок, он и в Германии валенок",
-							"Патриот Дюссельдорфский :)"
+							"Патриот Дюссельдорфский"
 							//"Валенок,вафлюбушь?",
 							//"валенок - фашистский прихвостень, почитатель Адольфа"
 							];
@@ -368,6 +350,7 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 			
 			var replies = [	
 							 "Кхекашка Совок!! Кхекашка Совок!!"
+							,"Кхекашка козел пархатый!!"
 							,"Остановите-вите!\nВите надо выйти!"
 							//,"Скучно без врагов, да Кхеканька :)?",
 							,"Кхекашка, вафлюбушь?"
@@ -419,7 +402,7 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 							,"Где Берега?? Где Берега?"
 							,"Чаек нах!!! Всех чаек нах!!!"
 							,"Независимый Суд!! Генпррокурор!! Нах!!"
-							,"Хочу в Панаму!!"
+							,"В Панаму!! В Панаму!!"
 							,"Оффшоры!! Оффшоры!!"
 							,"Дуррак!! Купи виолончель!!"
 							,"Серрдюков!! Генпррокурор!!"
