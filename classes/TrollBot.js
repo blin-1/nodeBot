@@ -243,11 +243,11 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		}		
 		
 		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
-			return bot.processComment(30,bot.respondToBadGuy,comment,articleId,bot);			
+			return bot.processComment(25,bot.respondToBadGuy,comment,articleId,bot);			
 		}
 		
 		if (bot.goodGuys.includes(id) || bot.goodGuys.includes(fullName)){
-			return bot.processComment(30,bot.respondToGoodGuy,comment,articleId,bot);			
+			return bot.processComment(25,bot.respondToGoodGuy,comment,articleId,bot);			
 		}
 		
 		if (comment.text.includes('Попк')   || 
@@ -272,7 +272,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 					published.shift();
 				}
 			while (published.length > 300);
-			//console.log("cleaning up to 200, size: " + published.length);
+			//console.log("cleaning up to 300, size: " + published.length);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"));	
 		};
 				
@@ -280,7 +280,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		if (!published.includes(commentKey)){
 			published.push(commentKey);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
-			if (bot.isSureToRespond(probability)) {
+			if (bot.isSureToRespond(probability)&&(published.length > 200)) { //ignore the first 200 so that there is no burst on the startup
 				//console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
