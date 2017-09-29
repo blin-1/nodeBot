@@ -210,12 +210,13 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		
 		if (bot.isDeletingComments && id == bot.user.id){
 			return bot.deleteComment(articleId,comment,bot);
-		}
+		} 
 		
 		if (
 			(fullName.includes('Гeнepaтop') && id != 6373791 && !comment.is_banned)
 		||	(fullName.includes('Ядрена')   	&& id != 6410972 && !comment.is_banned)
 		||	(fullName.includes('Дискурсивный') && id != 6408282 && !comment.is_banned)
+		||	(fullName.includes('Трансцендентный') && id != 6420876 && !comment.is_banned)
 		||	(fullName.includes('Ясен')   	&& id != 6318323 && !comment.is_banned)
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
@@ -324,9 +325,13 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 
 			let insult = bot.insults.random(); //Дуррак!
 			return(
-					 "\nКлон " + bot.getTheName(comment.user) + " - " + insult
-					+"\nКлон " + bot.getTheName(comment.user) + " - " + insult
-					+ (bot.isSureToRespond(30)?bot.actions.random():"")
+					 "\nКлон " + bot.getTheName(comment.user) + " - " + 
+					 "\nникакой ты не " + bot.getTheName(comment.user) + 
+					 "," +
+					 "\nа простой Говнюк, для друзей - Говнюша :)" +
+					 "\nНу, короче ты понял, копрофил." + 
+					 "\n" + insult
+					//+ (bot.isSureToRespond(30)?bot.actions.random():"")
 					);
 	
 };
