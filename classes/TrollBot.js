@@ -328,7 +328,7 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 					 "\nКлон " + bot.getTheName(comment.user) + " - " + 
 					 "\nникакой ты не " + bot.getTheName(comment.user) + 
 					 "," +
-					 "\nа простой Говнюк, для друзей - Говнюша :)" +
+					 "\nа простой Гoвнюк, для друзей - Гoвнюша :)" +
 					 "\nНу, короче ты понял, копрофил." + 
 					 "\n" + insult
 					//+ (bot.isSureToRespond(30)?bot.actions.random():"")
