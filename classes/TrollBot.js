@@ -290,7 +290,9 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		if (!published.includes(commentKey)){
 			published.push(commentKey);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
-			if (bot.isSureToRespond(probability)&&(published.length > 200)) { //ignore the first 200 so that there is no burst on the startup
+			if (bot.isSureToRespond(probability)
+				//&&(published.length > 200)
+			) { //ignore the first 200 so that there is no burst on the startup
 				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
