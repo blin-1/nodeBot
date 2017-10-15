@@ -222,10 +222,11 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		)*/
 		if (
 			(fullName.includes('Гeнepaтop') && id != 6373791)
-		||	(fullName.includes('Ядрена')   	&& id != 6410972)
-		||	(fullName.includes('Дискурсивный') && id != 6408282)
-		||	(fullName.includes('Трансцендентный') && id != 6420876)
-		||	(fullName.includes('Ясен')   	&& id != 6318323)
+		||	(fullName.includes('Ядр')   	&& id != 6410972)
+		||	(fullName.includes('Дис') && id != 6408282)
+		||	(fullName.includes('тный') && id != 6420876)
+		||	(fullName.includes('Яс')   	&& id != 6318323)
+		||	(fullName.includes('Яc')   	&& id != 6318323)
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
 		{
@@ -290,6 +291,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		if (!published.includes(commentKey)){
 			published.push(commentKey);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
+			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
 			if (bot.isSureToRespond(probability)
 				//&&(published.length > 200)
 			) { //ignore the first 200 so that there is no burst on the startup
