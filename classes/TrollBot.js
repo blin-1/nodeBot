@@ -33,7 +33,15 @@ function TrollBot(creds,goodGuys,badGuys,insults,praises,actions,isDeletingComme
 TrollBot.prototype.run = function() {
 
 	// Read already published comments:
-	this.content.published = fs.readFileSync('commentsCache').toString().split("\n<...>");
+	try {
+		this.content.published = fs.readFileSync('commentsCache').toString().split("\n<...>");
+	} catch (err) {
+	  if (err.code === 'ENOENT') {
+			console.log('File not found!');
+		} else {
+		throw err;
+		}
+	};
 	
 	// login and start scanning and posting
 	let promise = new Promise((resolve, reject) => {
