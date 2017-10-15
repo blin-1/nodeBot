@@ -34,7 +34,7 @@ TrollBot.prototype.run = function() {
 
 	// Read already published comments:
 	this.content.published = fs.readFileSync('commentsCache').toString().split("\n<...>");
-	console.log(this.content.published);
+	
 	// login and start scanning and posting
 	let promise = new Promise((resolve, reject) => {
 		request.post(
@@ -51,7 +51,6 @@ TrollBot.prototype.run = function() {
 					console.log(response);
 					if (response.error){
 						reject(response.error);
-
 					}else{
 						resolve(response);
 					}
@@ -61,6 +60,7 @@ TrollBot.prototype.run = function() {
 	})
 	.then((user) => {
 			console.log (user.first_name + " " + user.last_name + (this.isDeletingComments?' is deleting ':' is listening'));
+			console.log("cache size: " + this.content.published.length);
 			this.user = user;
 			this.scanInterval.id = setInterval(this.scan30, 60000, this);
 			this.postInterval.id = setInterval(this.post, 10000, this);		
@@ -211,13 +211,21 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		if (bot.isDeletingComments && id == bot.user.id){
 			return bot.deleteComment(articleId,comment,bot);
 		} 
-		
+		/*
 		if (
 			(fullName.includes('Гeнepaтop') && id != 6373791 && !comment.is_banned)
 		||	(fullName.includes('Ядрена')   	&& id != 6410972 && !comment.is_banned)
 		||	(fullName.includes('Дискурсивный') && id != 6408282 && !comment.is_banned)
 		||	(fullName.includes('Трансцендентный') && id != 6420876 && !comment.is_banned)
 		||	(fullName.includes('Ясен')   	&& id != 6318323 && !comment.is_banned)
+		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
+		)*/
+		if (
+			(fullName.includes('Гeнepaтop') && id != 6373791)
+		||	(fullName.includes('Ядрена')   	&& id != 6410972)
+		||	(fullName.includes('Дискурсивный') && id != 6408282)
+		||	(fullName.includes('Трансцендентный') && id != 6420876)
+		||	(fullName.includes('Ясен')   	&& id != 6318323)
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
 		{
@@ -232,10 +240,10 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			return bot.processComment(50,bot.respondToBadGuy,comment,articleId,bot);
 		} 
 		
-		if (fullName.includes('Кхе')||
-			fullName.includes('Khe')||
-			fullName.includes('Kхе')||
-			fullName.includes('Кxе')){
+		if (fullName.includes('Кх')||
+			fullName.includes('Кh')||
+			fullName.includes('Kh')||
+			fullName.includes('Kх')){
 			return bot.processComment(60,bot.respondToKhe,comment,articleId,bot);
 		}
 		
@@ -265,16 +273,16 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 };
 
 TrollBot.prototype.processComment = function(probability,respond,comment,articleId,bot) {
-	
+
 		let publishQueue = bot.content.comments;
 		let published = bot.content.published;
 		
 		if (published.length > 300){
+			console.log("cleaning up to 300, size: " + published.length);
 			do {
 					published.shift();
 				}
 			while (published.length > 300);
-			//console.log("cleaning up to 300, size: " + published.length);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"));	
 		};
 				
@@ -283,7 +291,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			published.push(commentKey);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
 			if (bot.isSureToRespond(probability)&&(published.length > 200)) { //ignore the first 200 so that there is no burst on the startup
-				//console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
+				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
 		}
@@ -360,12 +368,6 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 							,"Остановите-вите!\nВите надо выйти!"
 							//,"Скучно без врагов, да Кхеканька :)?",
 							,"Кхекашка, вафлюбушь?"
-							//,"Кхеканька, сделай себе xaракири и не мучай себя и других :)"
-							//,"Кхе, где Мутил Мутилыч Копипастов-Борзой, кровинушка моя?\nТы че с ним сделал, а?\nВыключил???"
-							//,"вступайте в волонтеры ФБК в нашем Уссурийске\n\nhttps://fbk.info/"
-							//,"Витек, по делу выскажемся хоть один разочек?\nБез личностей?\nИли ты так не способен?"
-							//,"Все ЛГБТ активисты :\nПриезжайте к нам в Уссурийск, в 2017 мы организовываем первый в Уссурийске гей-парад.\nВ августе.\nМилости просим."
-							//,"Путин - мерзкий ФСБшник\nНенавижу." 
 							,"Долой воров!!!"
 							,"Все голосуем за Навального!"
 							//,"Все голосуем за Навального!\nСколько же можно терпеть беспредел власти???"
@@ -405,7 +407,6 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 							,"Кадырр-рка Дуррак !!!"
 							,"МРОТ Вам в Рот!! Чайки !!!"
 							,"Крррах Доллара!!! Пиастры!!! Пиастры!!!"
-							,"Где Берега?? Где Берега?"
 							,"Чаек нах!!! Всех чаек нах!!!"
 							,"Независимый Суд!! Генпррокурор!! Нах!!"
 							,"В Панаму!! В Панаму!!"
@@ -421,19 +422,6 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 							];
 //			console.log((replies.random() + (bot.isSureToRespond(30)?bot.actions.random():"")));				
 			return (replies.random() + (bot.isSureToRespond(30)?bot.actions.random():""));
-	
-};
-
-TrollBot.prototype.respondToPoganka = function(comment,bot) {
-			
-			var replies = [	
-							"Поганый - мент",
-							"Опять Поганый заахал...",
-							"Поганый Хохол - злобное, тупое животноe.\nСудя по смеху - гиена",
-							"Поганый, вафлюбушь?"
-							];
-	
-			return replies.random();
 	
 };
 
