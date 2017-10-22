@@ -301,7 +301,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
 			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
 			if (bot.isSureToRespond(probability)
-				&&(published.length > 50 )
+				&&(published.length > 100 )
 			) { //ignore the first 200 so that there is no burst on the startup
 				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
