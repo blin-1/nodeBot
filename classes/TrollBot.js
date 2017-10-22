@@ -6,11 +6,10 @@ Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)]
 }
 
-function TrollBot(creds,goodGuys,badGuys,insults,praises,actions,isDeletingComments){
+function TrollBot(goodGuys,badGuys,insults,praises,actions,isDeletingComments){
     
 	this.isDeletingComments = isDeletingComments;
 	this.isDryRun = true;
-	this.creds = creds;
     this.goodGuys = goodGuys;
 	this.badGuys = badGuys;
 	this.insults = insults;
@@ -301,8 +300,8 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
 			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
 			if (bot.isSureToRespond(probability)
-				&&(published.length > 100 )
-			) { //ignore the first 200 so that there is no burst on the startup
+				&&(published.length > 50 )
+			) { //ignore the first 50 so that there is no burst on the startup
 				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
@@ -357,8 +356,9 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 					 + "," 
 					 + "\nПиши под своим именем." 
 					 //+ bot.getTheName(comment.user) 
-					 + "\nТы его знаешь:) " +
-					 + (bot.isSureToRespond(10)?bot.actions.random():"")
+					 + "\nТы его знаешь:) "
+					 + "\n" 
+					 + insult //(bot.isSureToRespond(10)?bot.actions.random():"")
 					);
 	
 };
