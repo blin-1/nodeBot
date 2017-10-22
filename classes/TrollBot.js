@@ -231,7 +231,7 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			(fullName.includes('Гeнepaтop') && id != 6373791)
 		||	(fullName.includes('Ядр')   	&& id != 6410972)
 		||	(fullName.includes('Дис') && id != 6408282)
-		||	(fullName.includes('тный') && id != 6420876)
+		||	(fullName.includes('ный') && id != 6420876)
 		||	(fullName.includes('Яс')   	&& id != 6318323)
 
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
