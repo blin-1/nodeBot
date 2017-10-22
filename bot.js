@@ -1,8 +1,6 @@
 	
-	let TrollBot = require('./classes/TrollBot');
-	let Creds    = require('./config/creds/Kirill');
-		
-	new TrollBot(	Creds, 
+	let TrollBot = require('./classes/TrollBot');		
+	new TrollBot( 
 					[//Good Guys
 						'TIM'
 						,'Al Gl'
