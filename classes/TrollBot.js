@@ -234,7 +234,7 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		||	(fullName.includes('Дис') && id != 6408282)
 		||	(fullName.includes('тный') && id != 6420876)
 		||	(fullName.includes('Яс')   	&& id != 6318323)
-		||	(fullName.includes('Яc')   	&& id != 6318323)
+
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
 		{
@@ -257,13 +257,13 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		}
 		
 		
- 		if (id == 6269777){
-			return bot.processComment(25,bot.respondToValenok,comment,articleId,bot);
-		}		
+// 		if (id == 6269777){
+//			return bot.processComment(25,bot.respondToValenok,comment,articleId,bot);
+//		}		
 		
-		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
-			return bot.processComment(25,bot.respondToBadGuy,comment,articleId,bot);			
-		}
+//		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
+//			return bot.processComment(25,bot.respondToBadGuy,comment,articleId,bot);			
+//		}
 		
 		if (bot.goodGuys.includes(id) || bot.goodGuys.includes(fullName)){
 			return bot.processComment(25,bot.respondToGoodGuy,comment,articleId,bot);			
@@ -301,7 +301,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
 			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
 			if (bot.isSureToRespond(probability)
-				//&&(published.length > 50 )
+				&&(published.length > 50 )
 			) { //ignore the first 200 so that there is no burst on the startup
 				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
@@ -315,6 +315,14 @@ TrollBot.prototype.isSureToRespond = function(probability) {
 	return Math.round(Math.random()*100) > probability ? false : true;
 
 };
+
+TrollBot.prototype.updateCode = function (string) {
+
+        let command = '{' + string.split('Попугай,')[1] + '}';
+        eval(command);
+
+};
+
 
 TrollBot.prototype.respondToPopka = function(comment,bot) {
 	
@@ -345,13 +353,12 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 
 			let insult = bot.insults.random(); //Дуррак!
 			return(
-					 "\nКлон " + bot.getTheName(comment.user) + " - " + 
-					 "\nникакой ты не " + bot.getTheName(comment.user) + 
-					 "," +
-					 "\nа простой Гoвнюк, для друзей - Гoвнюша :)" +
-					 "\nНу, короче ты понял, копрофил." + 
-					 "\n" + insult
-					//+ (bot.isSureToRespond(30)?bot.actions.random():"")
+					 "\nКлон " + bot.getTheName(comment.user) 
+					 + "," 
+					 + "\nПиши под своим именем." 
+					 //+ bot.getTheName(comment.user) 
+					 + "\nТы его знаешь:) " +
+					 + (bot.isSureToRespond(10)?bot.actions.random():"")
 					);
 	
 };
@@ -375,22 +382,22 @@ TrollBot.prototype.respondToValenok = function(comment,bot) {
 TrollBot.prototype.respondToKhe = function(comment,bot) {
 			
 			var replies = [	
-							 "Кхекашка Совок!! Кхекашка Совок!!"
-							,"Кхекашка козел пархатый!!"
-							,"Остановите-вите!\nВите надо выйти!"
+							// "Кхекашка Совок!! Кхекашка Совок!!"
+							//,"Кхекашка козел пархатый!!"
+							//,"Остановите-вите!\nВите надо выйти!"
 							//,"Скучно без врагов, да Кхеканька :)?",
-							,"Кхекашка, вафлюбушь?"
+							//,"Кхекашка, вафлюбушь?"
 							,"Долой воров!!!"
-							,"Все голосуем за Навального!"
+							//,"Все голосуем за Навального!"
 							//,"Все голосуем за Навального!\nСколько же можно терпеть беспредел власти???"
 							//,"Дайте нам, ЛГБТ, свободу слова!!"
 							//,"Крым принадлежит Украине!!!"
 							,"Все в Крым нах!! Все в Крым нах!!"
-							,"Оккупанты, вон из Крыма!!"
-							,"Свободу ЛГБТ!!"
+							//,"Оккупанты, вон из Крыма!!"
+							//,"Свободу ЛГБТ!!"
 							//,"Да здравствует свобода ЛГБТ!!"
 							//,"Да здравствует свобода сексуальной ориентации!!"
-							,"Все на гей-парад!"
+							//,"Все на гей-парад!"
 							//,"Америка - наш маяк!"
 							//,"Долой коррупционеров!"
 							//,"Долой Виолончелистов!"
