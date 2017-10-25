@@ -108,7 +108,7 @@ TrollBot.prototype.scan30 = function(bot) {
 			bot.processCommentsForArticle(article);
 		});
 		
-		if (bot.isDryRun){
+		if (bot.isDryRun === true){
 			console.log("Dry Run is now false, cache size is " + bot.content.published.length);
 			bot.isDryRun = false;
 		}
@@ -295,10 +295,10 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
 			if (bot.isSureToRespond(probability)
 				//&&(published.length > 50 //ignore the first 50 so that there is no burst on the startup
-				&&(!bot.isDryRun)
+				&&(bot.isDryRun === false)
 			) { 
 				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
-				publishQueue.push(articleId + "///" + respond(comment,bot));	
+				//publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
 		}
 		return;
