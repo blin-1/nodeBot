@@ -108,8 +108,11 @@ TrollBot.prototype.scan30 = function(bot) {
 			bot.processCommentsForArticle(article);
 		});
 		
-		bot.isDryRun = false;
-
+		if (bot.isDryRun){
+			console.log("Dry Run is now false, cache size is " + bot.content.published.length);
+			bot.isDryRun = false;
+		}
+		
 	})
 	.catch((reason) => {
 		console.log(reason);
@@ -120,11 +123,7 @@ TrollBot.prototype.scan30 = function(bot) {
 TrollBot.prototype.post = function(bot) {
 	
 	if (bot.content.comments.length!=0){
-		if (bot.isDryRun){
-			console.log("recording " + bot.content.comments.shift());
-		}else{
-			bot.postComment(bot.content.comments.shift());
-		}
+		bot.postComment(bot.content.comments.shift());
 	}
 	
 };
@@ -218,21 +217,16 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		if (bot.isDeletingComments && id == bot.user.id){
 			return bot.deleteComment(articleId,comment,bot);
 		} 
-		/*
+
 		if (
-			(fullName.includes('Гeнepaтop') && id != 6373791 && !comment.is_banned)
-		||	(fullName.includes('Ядрена')   	&& id != 6410972 && !comment.is_banned)
-		||	(fullName.includes('Дискурсивный') && id != 6408282 && !comment.is_banned)
-		||	(fullName.includes('Трансцендентный') && id != 6420876 && !comment.is_banned)
-		||	(fullName.includes('Ясен')   	&& id != 6318323 && !comment.is_banned)
-		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
-		)*/
-		if (
-			(fullName.includes('Гeнepaтop') && id != 6373791)
-		||	(fullName.includes('Ядр')   	&& id != 6410972)
-		||	(fullName.includes('Дис') && id != 6408282)
-		||	(fullName.includes('ный') && id != 6420876)
-		||	(fullName.includes('Яс')   	&& id != 6318323)
+			(fullName.includes('Ядр') && id != 6410972)
+
+			||	(fullName.includes('Дис') && id != 6408282)
+
+		||	(fullName.includes('ный') && id != 6424862)
+
+		||	(fullName.includes('Яс')  && id != 6318323)
+		||	(fullName.includes('Яc')  && id != 6318323)
 
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
@@ -300,8 +294,9 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
 			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
 			if (bot.isSureToRespond(probability)
-				&&(published.length > 50 )
-			) { //ignore the first 50 so that there is no burst on the startup
+				//&&(published.length > 50 //ignore the first 50 so that there is no burst on the startup
+				&&(!bot.isDryRun)
+			) { 
 				console.log(articleId + " publishing : " + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
