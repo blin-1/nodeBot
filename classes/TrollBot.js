@@ -109,10 +109,10 @@ TrollBot.prototype.scan30 = function(bot) {
 		});
 		
 		if (bot.isDryRun && bot.content.published.length > 0){
-			console.log("Dry Run is now false, cache size is " + bot.content.published.length);
+			console.log("Dry Run complete, cache size is " + bot.content.published.length);
 			bot.isDryRun = false;
 		}else{
-			console.log("Dry Run unchanged :" + bot.isDryRun + "cache size is " + bot.content.published.length)
+			//console.log("Scanned 30: cache size is " + bot.content.published.length)
 		}
 		
 	})
@@ -281,12 +281,12 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		let publishQueue = bot.content.comments;
 		let published = bot.content.published;
 		
-		if (published.length > 400){
+		if (published.length > 300){
 			console.log("cleaning up to 400, size: " + published.length);
 			do {
 					published.shift();
 				}
-			while (published.length > 400);
+			while (published.length > 300);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"));	
 		};
 				
@@ -294,14 +294,12 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		if (!published.includes(commentKey)){
 			published.push(commentKey);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
-			console.log("Writing comment key to cache - (and remembering it:)" + commentKey)
-			if (bot.isSureToRespond(probability)
-				//&&(published.length > 50 //ignore the first 50 so that there is no burst on the startup
-				&&(!bot.isDryRun)
+			console.log("Cached comment key :" + commentKey)
+			if (bot.isSureToRespond(probability)&&(!bot.isDryRun)
 			) { 
-			    console.log("Tryinng to Publish - DryRun: " + bot.isDryRun);
-				//console.log("Publishing to queue: " + articleId + "///" + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
-				//publishQueue.push(articleId + "///" + respond(comment,bot));	
+			    //console.log("Tryinng to Publish - DryRun: " + bot.isDryRun);
+				console.log("Published " + articleId + "///" + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
+				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
 		}
 		return;
