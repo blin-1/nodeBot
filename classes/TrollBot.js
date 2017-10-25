@@ -294,7 +294,7 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		if (!published.includes(commentKey)){
 			published.push(commentKey);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"))
-			console.log("Cached comment key :" + commentKey)
+			//console.log("Cached comment key :" + commentKey)
 			if (bot.isSureToRespond(probability)&&(!bot.isDryRun)
 			) { 
 			    //console.log("Tryinng to Publish - DryRun: " + bot.isDryRun);
