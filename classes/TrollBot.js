@@ -229,6 +229,9 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 
 		||	(fullName.includes('Яс')  && id != 6318323)
 		||	(fullName.includes('Яc')  && id != 6318323)
+		
+		||	(fullName.includes('ЖД')  && id != 6383036)
+		//ГРАЖДАНСКОЕ6383036
 
 		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
 		)
@@ -256,9 +259,9 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 //			return bot.processComment(25,bot.respondToValenok,comment,articleId,bot);
 //		}		
 		
-//		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
-//			return bot.processComment(25,bot.respondToBadGuy,comment,articleId,bot);			
-//		}
+		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
+			return bot.processComment(5,bot.respondToBadGuy,comment,articleId,bot);			
+		}
 		
 		if (bot.goodGuys.includes(id) || bot.goodGuys.includes(fullName)){
 			return bot.processComment(25,bot.respondToGoodGuy,comment,articleId,bot);			
