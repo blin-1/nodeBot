@@ -279,12 +279,12 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		let publishQueue = bot.content.comments;
 		let published = bot.content.published;
 		
-		if (published.length > 300){
-			console.log("cleaning up to 300, size: " + published.length);
+		if (published.length > 400){
+			console.log("cleaning up to 400, size: " + published.length);
 			do {
 					published.shift();
 				}
-			while (published.length > 300);
+			while (published.length > 400);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"));	
 		};
 				
