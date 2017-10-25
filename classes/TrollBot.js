@@ -108,7 +108,7 @@ TrollBot.prototype.scan30 = function(bot) {
 			bot.processCommentsForArticle(article);
 		});
 		
-		if (bot.isDryRun){
+		if (bot.isDryRun && bot.content.published.length > 0){
 			console.log("Dry Run is now false, cache size is " + bot.content.published.length);
 			bot.isDryRun = false;
 		}else{
