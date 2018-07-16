@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 var request = require('request');
 var fs = require('fs');
 
@@ -252,12 +252,7 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			fullName.includes('Kh')||
 			fullName.includes('Kх')){
 			return bot.processComment(60,bot.respondToKhe,comment,articleId,bot);
-		}
-		
-		
-// 		if (id == 6269777){
-//			return bot.processComment(25,bot.respondToValenok,comment,articleId,bot);
-//		}		
+		}		
 		
 		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
 			return bot.processComment(5,bot.respondToBadGuy,comment,articleId,bot);			
@@ -267,7 +262,7 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			return bot.processComment(25,bot.respondToGoodGuy,comment,articleId,bot);			
 		}
 		
-		if (comment.text.includes('Попк')   || 
+		if (comment.text.includes('Попк')   || //Somebody calls the parrot by name
 			comment.text.includes('Попуга')  ||
 			comment.text.includes('попк')   ||
 			comment.text.includes('попуга')
@@ -314,7 +309,7 @@ TrollBot.prototype.isSureToRespond = function(probability) {
 
 };
 
-TrollBot.prototype.updateCode = function (string) {
+TrollBot.prototype.updateCode = function (string) { // control bot via comment - not implemented yet
 
         let command = '{' + string.split('Попугай,')[1] + '}';
         eval(command);
@@ -339,7 +334,6 @@ TrollBot.prototype.respondToPopka = function(comment,bot) {
 					 + bot.respondToKhe(comment,bot)
 					 )
 					 ;
-			//console.log("response: " + response); 
 			return response;
 	
 };
@@ -349,7 +343,7 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 			//console.log("Responding to : " + comment.user.first_name + " " + comment.user.last_name + " : " + comment);
 			//console.log(bot.getTheName(comment.user));
 
-			let insult = bot.insults.random(); //Дуррак!
+			let insult = bot.insults.random(); 
 			return(
 					 "\nКлон " + bot.getTheName(comment.user) 
 					 + "," 
@@ -357,50 +351,17 @@ TrollBot.prototype.respondToKlon = function(comment,bot) {
 					 //+ bot.getTheName(comment.user) 
 					 + "\nТы его знаешь:) "
 					 + "\n" 
-					 + insult //(bot.isSureToRespond(10)?bot.actions.random():"")
+					 + insult 
 					);
 	
 };
 
-TrollBot.prototype.respondToValenok = function(comment,bot) {
-	
-			//console.log("Responding to : " + comment.user.first_name + " " + comment.user.last_name + " : " + comment);	
-			var replies = [	
-							"Валенок, он и в Германии валенок",
-							"Патриот Дюссельдорфский"
-							//"Валенок,вафлюбушь?",
-							//"валенок - фашистский прихвостень, почитатель Адольфа"
-							];
-	
-			return replies.random();
-					
-			
-};
-
-
 TrollBot.prototype.respondToKhe = function(comment,bot) {
 			
 			var replies = [	
-							// "Кхекашка Совок!! Кхекашка Совок!!"
-							//,"Кхекашка козел пархатый!!"
-							//,"Остановите-вите!\nВите надо выйти!"
-							//,"Скучно без врагов, да Кхеканька :)?",
-							//,"Кхекашка, вафлюбушь?"
+
 							,"Долой воров!!!"
-							//,"Все голосуем за Навального!"
-							//,"Все голосуем за Навального!\nСколько же можно терпеть беспредел власти???"
-							//,"Дайте нам, ЛГБТ, свободу слова!!"
-							//,"Крым принадлежит Украине!!!"
 							,"Все в Крым нах!! Все в Крым нах!!"
-							//,"Оккупанты, вон из Крыма!!"
-							//,"Свободу ЛГБТ!!"
-							//,"Да здравствует свобода ЛГБТ!!"
-							//,"Да здравствует свобода сексуальной ориентации!!"
-							//,"Все на гей-парад!"
-							//,"Америка - наш маяк!"
-							//,"Долой коррупционеров!"
-							//,"Долой Виолончелистов!"
-							//,"Искореним круговую поруку!" 
 							,"Кррах!!! Нахх!!!"
 							,"Бейдевинд!!! Бизань вашу мать!!"
 							,"Путин - хватит пудрить нам мозги!"
@@ -437,8 +398,7 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 							,"Распятый Мальчик!! Распятый Мальчик!!"
 							,"Тайга!! Кррах!!"
 							,"Генпррокурор!! Кррах Режима!!"							
-							];
-//			console.log((replies.random() + (bot.isSureToRespond(30)?bot.actions.random():"")));				
+							];				
 			return (replies.random() + (bot.isSureToRespond(30)?bot.actions.random():""));
 	
 };
