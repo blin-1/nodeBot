@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "express": "4.15.2",
+    "gapi-client": "0.0.3",
     "request": "2.81.0"
   },
   "devDependencies": {
@@ -26,7 +27,7 @@
     "node",
     "heroku",
     "chat",
-	"bot"
+    "bot"
   ],
   "license": "MIT"
 }

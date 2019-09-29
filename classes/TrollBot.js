@@ -1,6 +1,21 @@
-﻿'use strict'
+'use strict'
 var request = require('request');
 var fs = require('fs');
+//var gapi = require('gapi');
+/* 	var gapiClient = require("gapi-client")
+	gapi.load('client:auth2', initClient);
+
+// Initialize the API client library
+function initClient() {
+  gapi.client.init({
+    discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+    clientId: 'YOUR_CLIENT_ID',
+    scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
+  }).then(function () {
+    // do stuff with loaded APIs
+    console.log('it worked');
+  });
+} */
 
 Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)]
@@ -36,20 +51,19 @@ TrollBot.prototype.run = function() {
 		this.content.published = fs.readFileSync('commentsCache').toString().split("\n<...>");
 	} catch (err) {
 	  if (err.code === 'ENOENT') {
-			console.log('File not found!');
+			console.log('File not found!'); // ok to proceed
 		} else {
-		throw err;
+			throw err;
 		}
 	};
-	
-	// login and start scanning and posting
-	let promise = new Promise((resolve, reject) => {
+
+ 	let promise = new Promise((resolve, reject) => {
 		request.post(
 				{
 					url:'http://www.anews.com/api/login/', 
 					form: 	{
-								username: process.env.EMAIL,
-								password: process.env.PASSWORD
+								username: 'botikbotik10000@gmail.com' ,//process.env.EMAIL,
+								password: 'Botik123'//process.env.PASSWORD
 							},
 							jar : 	true
 				}, 				
@@ -74,8 +88,8 @@ TrollBot.prototype.run = function() {
 	})
 	.catch((reason) => {
 			console.log(reason);
-	});		
-		
+	});		 
+
 };
 
 TrollBot.prototype.scan30 = function(bot) {
@@ -83,7 +97,7 @@ TrollBot.prototype.scan30 = function(bot) {
 	let promise = new Promise((resolve, reject) => {
 		request('http://mixer.anews.com/mix/?region=ru&categories=6&page=1&page_size=30', 		
 		function (error, response, body) {
-			//console.log('statusCode:', response && response.statusCode); 
+			console.log('statusCode:', response && response.statusCode); 
 			if (error){
 				reject(error);
 			}else{
@@ -98,11 +112,11 @@ TrollBot.prototype.scan30 = function(bot) {
 			console.log("Same articles");
 		}else{
 			bot.content.articles = data.results;
-			//console.log("--------------------------------------------------");
-			//data.results.forEach(function(article){
-			//	console.log(article);
-			//});
-			//console.log("--------------------------------------------------");				
+/* 			console.log("--------------------------------------------------");
+			data.results.forEach(function(article){
+				console.log(article);
+			});
+			console.log("--------------------------------------------------");		 */		
 		}
 		data.results.forEach(function(article){
 			bot.processCommentsForArticle(article);
@@ -112,7 +126,7 @@ TrollBot.prototype.scan30 = function(bot) {
 			console.log("Dry Run complete, cache size is " + bot.content.published.length);
 			bot.isDryRun = false;
 		}else{
-			//console.log("Scanned 30: cache size is " + bot.content.published.length)
+			console.log("Scanned 30: cache size is " + bot.content.published.length)
 		}
 		
 	})
@@ -145,7 +159,11 @@ TrollBot.prototype.getSingleName = function(user) {
 
 TrollBot.prototype.postComment = function(comment) {
 	
-	let values = comment.split("///");	
+	let values = comment.split("///");
+
+	// console.log('Posting Comment :' + values [0] + ' ' + Math.round(Math.random()*100) + ". " + values [1]);
+	return;
+	
 	request.post(
 		{
 			url:'http://www.anews.com/api/v3/posts/' +  values [0] + '/comments/', 			
@@ -213,6 +231,7 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 	
 	comments.data.forEach(function(comment){
 		
+		//console.log(comment);
 		let fullName = bot.getTheName(comment.user);
 		let id = comment.user.id;
 		
@@ -221,54 +240,35 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 		} 
 
 		if (
-			(fullName.includes('Ядр') && id != 6410972)
-
-			||	(fullName.includes('Дис') && id != 6408282)
-
-		||	(fullName.includes('ный') && id != 6424862)
-
-		||	(fullName.includes('Яс')  && id != 6318323)
-		||	(fullName.includes('Яc')  && id != 6318323)
-		
-		||	(fullName.includes('ЖД')  && id != 6383036)
-		//ГРАЖДАНСКОЕ6383036
-
-		//||	(fullName.includes('Kostia')   	&& id != 6410059 && !comment.is_banned)
+		     (fullName.includes('ё')  && id !== 6567623)
 		)
 		{
 		    return bot.processComment(100,bot.respondToKlon,comment,articleId,bot);
 		}
 						
-		if (fullName === 'Безымянный Гoвняй'){
+/* 		if (fullName === 'Безымянный Гoвняй'){
 			return bot.processComment(100,bot.respondToBadGuy,comment,articleId,bot);	
-		}
-
-		if (fullName.includes('ПОГАНЫЙ')){
-			return bot.processComment(50,bot.respondToBadGuy,comment,articleId,bot);
-		} 
-		
-		if (fullName.includes('Кх')||
-			fullName.includes('Кh')||
-			fullName.includes('Kh')||
-			fullName.includes('Kх')){
+		} */
+/* 		
+		if (fullName.includes('Шелест')){
 			return bot.processComment(60,bot.respondToKhe,comment,articleId,bot);
-		}		
+		}	 */	
 		
-		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
+/* 		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
 			return bot.processComment(5,bot.respondToBadGuy,comment,articleId,bot);			
-		}
+		} */
 		
-		if (bot.goodGuys.includes(id) || bot.goodGuys.includes(fullName)){
+/* 		if (bot.goodGuys.includes(id) || bot.goodGuys.includes(fullName)){
 			return bot.processComment(25,bot.respondToGoodGuy,comment,articleId,bot);			
-		}
+		} */
 		
-		if (comment.text.includes('Попк')   || //Somebody calls the parrot by name
+/* 		if (comment.text.includes('Попк')   || //Somebody calls the parrot by name
 			comment.text.includes('Попуга')  ||
 			comment.text.includes('попк')   ||
 			comment.text.includes('попуга')
 			){
 			return bot.processComment(100,bot.respondToPopka,comment,articleId,bot);
-		}
+		} */
 
 	});
 	
@@ -279,8 +279,8 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		let publishQueue = bot.content.comments;
 		let published = bot.content.published;
 		
-		if (published.length > 300){
-			console.log("cleaning up to 400, size: " + published.length);
+		if (published.length > 300){ //300
+			console.log("cleaning up to 300, size: " + published.length);
 			do {
 					published.shift();
 				}
@@ -295,8 +295,8 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 			//console.log("Cached comment key :" + commentKey)
 			if (bot.isSureToRespond(probability)&&(!bot.isDryRun)
 			) { 
-			    //console.log("Tryinng to Publish - DryRun: " + bot.isDryRun);
-				console.log("Published " + articleId + "///" + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
+			  //console.log("Tryinng to Publish - DryRun: " + bot.isDryRun);
+				//console.log("Published " + articleId + "///" + comment.user.id + " " + comment.user.first_name + " " + comment.user.last_name + " " + respond(comment,bot));
 				publishQueue.push(articleId + "///" + respond(comment,bot));	
 			}
 		}
@@ -340,26 +340,77 @@ TrollBot.prototype.respondToPopka = function(comment,bot) {
 
 TrollBot.prototype.respondToKlon = function(comment,bot) {
 	
-			//console.log("Responding to : " + comment.user.first_name + " " + comment.user.last_name + " : " + comment);
+			//console.log("Responding to : " + comment.user.first_name + " " + comment.user.last_name + " : " + comment.text);
 			//console.log(bot.getTheName(comment.user));
 
-			let insult = bot.insults.random(); 
-			return(
-					 "\nКлон " + bot.getTheName(comment.user) 
-					 + "," 
-					 + "\nПиши под своим именем." 
-					 //+ bot.getTheName(comment.user) 
-					 + "\nТы его знаешь:) "
-					 + "\n" 
-					 + insult 
-					);
+			var insult1 = bot.insults.random();
+			var insult2 = bot.insults.random();
+
+			insult2 = insult1 === insult2? bot.insults.random() : insult2;
+			insult2 = insult1 === insult2? bot.insults.random() : insult2;
+			insult2 = insult1 === insult2? bot.insults.random() : insult2;
+
+			var str = "\nНикакой ты не "  + bot.getTheName(comment.user) 
+					+ ", а просто "
+					 // + "\n" 
+					+ insult1
+					+ (bot.isSureToRespond(60)? ' и ещё и ' + insult2 + " притом." :".")
+					+ "\n"
+					+ "\n"
+					+ bot.blabla(comment.text)
+					+ '\n\nБред какой-то...'
+					+ (bot.isSureToRespond(30)?" зовите Доктора Кусакина.":".")
+				;
+
+			console.log(str);
+			return str;
 	
 };
+
+TrollBot.prototype.blabla = function(comment) {
+
+			var bla = 'бла-бла-бла';
+			var array = comment.split(["."]);
+			
+			if (array.length === 1) {
+				array = comment.split([","]); 
+			}  
+			
+			if (array.length === 1) {
+				array = comment.split(["?"]); 
+			}
+			
+			if (array.length === 1) {
+				array = comment.split([":)"]); 
+			}
+
+			if (array.length === 1) {
+				array = comment.split([":("]); 
+			}
+
+			if (array.length === 1) {
+				array = comment.split([" "]); 
+			}
+			
+			if (array.length === 1) {
+				array = comment.split(["/"]); 
+			}
+			
+			array.unshift (bla);
+			array.push (bla);
+
+			if (array.length !== 1) {
+					array [Math.floor((array.length - 1) / 2)] = bla;
+			}
+
+			//console.log(array);
+			return array.join('...');
+
+}
 
 TrollBot.prototype.respondToKhe = function(comment,bot) {
 			
 			var replies = [	
-
 							,"Долой воров!!!"
 							,"Все в Крым нах!! Все в Крым нах!!"
 							,"Кррах!!! Нахх!!!"
@@ -385,6 +436,7 @@ TrollBot.prototype.respondToKhe = function(comment,bot) {
 							,"Путин Дуррак!! Путин Дуррак!!!"
 							,"Кадырр-рка Дуррак !!!"
 							,"МРОТ Вам в Рот!! Чайки !!!"
+							,"Гейрррропа!!! Гейрррропа!!!"
 							,"Крррах Доллара!!! Пиастры!!! Пиастры!!!"
 							,"Чаек нах!!! Всех чаек нах!!!"
 							,"Независимый Суд!! Генпррокурор!! Нах!!"
