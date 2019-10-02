@@ -11,7 +11,10 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "coffee-script": "^1.12.7",
     "express": "4.15.2",
+    "gapi": "0.0.3",
+    "gapi-client": "0.0.3",
     "request": "2.81.0"
   },
   "devDependencies": {
@@ -26,7 +29,7 @@
     "node",
     "heroku",
     "chat",
-	"bot"
+    "bot"
   ],
   "license": "MIT"
 }
