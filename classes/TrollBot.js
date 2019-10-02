@@ -106,8 +106,12 @@ TrollBot.prototype.run = function() {
 				{
 					url:'http://www.anews.com/api/login/', 
 					form: 	{
-								username: 'botikbotik10000@gmail.com' ,//process.env.EMAIL, 
-								password: 'Botik123'//process.env.PASSWORD
+								username: 
+								'botikbotik10000@gmail.com' ,
+								//process.env.EMAIL, 
+								password: 
+								'Botik123'
+								//process.env.PASSWORD
 							},
 							jar : 	true
 				}, 				
