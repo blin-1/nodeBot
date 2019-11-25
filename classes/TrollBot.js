@@ -47,10 +47,10 @@ TrollBot.prototype.run = function() {
 				{
 					url:'http://www.anews.com/api/login/', 
 					form: 	{
-								username: //registered user
-								process.env.EMAIL, 
-								password: // password
-								process.env.PASSWORD
+								username: // 'botikbotik10000@gmail.com', //registered user
+								 process.env.EMAIL, 
+								password: // 'Botik123',
+								 process.env.PASSWORD
 							},
 							jar : 	true
 				}, 				
@@ -148,7 +148,7 @@ TrollBot.prototype.postComment = function(comment) {
 	
 	let values = comment.split("///");
 
-	console.log('Posting Comment :' + values [0] + ' ' + values [1]);
+	// console.log('Posting Comment :' + values [0] + ' ' + values [1]);
 	// return;
 	
 	request.post(
@@ -237,8 +237,8 @@ TrollBot.prototype.processComments = function(articleId,comments,bot) {
 			return bot.processComment(100,bot.respondToBadGuy,comment,articleId,bot);	
 		} */
  		
-		if (fullName.includes('Правда')){
-			return bot.processComment(80,bot.respondToKhe,comment,articleId,bot);
+		if (fullName.includes('Пpавда')){
+			return bot.processComment(100,bot.respondToKhe,comment,articleId,bot);
 		}		
 		
 /* 		if (bot.badGuys.includes(id)|| bot.badGuys.includes(fullName)){
@@ -266,12 +266,12 @@ TrollBot.prototype.processComment = function(probability,respond,comment,article
 		let publishQueue = bot.content.comments;
 		let published = bot.content.published;
 		
-		if (published.length > 300){ //300
+		if (published.length > 80){ //300
 			console.log("cleaning up to 300, size: " + published.length);
 			do {
 					published.shift();
 				}
-			while (published.length > 300);
+			while (published.length > 80);
 			fs.writeFileSync("commentsCache",published.join("\n<...>"));	
 		};
 				
